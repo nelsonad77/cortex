@@ -1,13 +1,10 @@
 ---
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: configs
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      name: configs
   template:
     metadata:
       labels:
@@ -15,7 +12,7 @@ spec:
     spec:
       containers:
       - name: configs
-        image: quay.io/cortexproject/cortex
+        image: quay.io/cortexproject/cortex:v0.4.0
         imagePullPolicy: IfNotPresent
         args:
         - -target=configs

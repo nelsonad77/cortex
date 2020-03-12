@@ -1,13 +1,10 @@
 ---
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: distributor
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      name: distributor
   template:
     metadata:
       labels:
@@ -15,13 +12,15 @@ spec:
     spec:
       containers:
       - name: distributor
-        image: quay.io/cortexproject/cortex
+        image: quay.io/cortexproject/cortex:v0.6.0
         imagePullPolicy: IfNotPresent
         args:
         - -target=distributor
         - -log.level=debug
         - -server.http-listen-port=80
         - -consul.hostname=consul.default.svc.cluster.local:8500
-        - -distributor.replication-factor=1
+        - -distributor.replication-factor=3
+        - -dynamodb.chunk-table.period=168h0m0s
+        - -dynamodb.chunk-table.prefix=cortex_chunks_
         ports:
         - containerPort: 80

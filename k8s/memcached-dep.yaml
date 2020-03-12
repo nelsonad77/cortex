@@ -1,13 +1,10 @@
 ---
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: memcached
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      name: memcached
   template:
     metadata:
       labels:
